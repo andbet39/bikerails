@@ -1,0 +1,12 @@
+<h1>TrackImport#index</h1>
+<p>Find me in app/views/track_import/index.html.erb</p>
+
+
+
+<%= form_tag({action: :import}, multipart: true) do %>
+  <%= file_field_tag 'track' %>
+    <div class="actions">
+      <%= submit_tag 'Submit' %>
+    </div>
+<% end %>
+ 

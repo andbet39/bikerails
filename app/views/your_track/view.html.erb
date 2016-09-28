@@ -1,0 +1,73 @@
+
+Elevation : <%= @total_elev %>
+Descemption : <%= @total_desc %>
+
+<div id="map"></div>
+<table class="table">
+  <% @segments.each() do |s| %>
+
+  <tr>
+    <td><%= s['name'] %></td>
+    <td><%= s['elev_difference'] %></td>
+    <td><%= s['avg_grade'] %></td>
+    <td><%= s['distance'] %></td>
+  </tr>
+  <% end %>
+
+</table>
+
+
+<%= javascript_tag do %>
+
+  var data = <%= @all_points.to_json.html_safe %>
+  var segments = <%= @segments.to_json.html_safe %>
+
+    console.log(segments);
+    console.log(data);
+
+    var ptArray = [];
+    
+    data.forEach(function(entry) {
+        var et = entry.split(',');
+        var latlng = L.latLng(et[0],et[1]);
+            ptArray.push(latlng);
+        });
+
+    var mymap = L.map('map').setView([51.505, -0.09], 13);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/andbet39/cit8fipzr00422xoaofa3l9jd/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW5kYmV0MzkiLCJhIjoiWjdrTG56QSJ9.MgWMjnaY4NPHqq8iauqEVw', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        maxZoom: 18,
+        id: 'your.mapbox.project.id',
+        accessToken: 'your.mapbox.public.access.token'
+    }).addTo(mymap);
+
+    var pl=null;
+
+    segments.forEach(function(segment){
+        var marker  = L.marker(segment.start_latlng).addTo(mymap)
+        .bindPopup(segment.name)
+        .openPopup();
+        marker.polypoints = segment.points
+
+        marker.on('click',function(e){
+            if ( pl != null ) {
+                mymap.removeLayer(pl);
+            }
+
+            var plarr = L.PolylineUtil.decode(e.target.polypoints );
+            pl = L.polyline(plarr, {color: 'red',weight:3,smoothFactor:1}).addTo(mymap);
+            console.log(pl);
+        });
+    });
+    
+     // create a red polyline from an array of LatLng points
+    var polyline = L.polyline(ptArray, {color: '#33ccff',weight:1,smoothFactor:1}).addTo(mymap);
+    
+    // zoom the map to the polyline
+    mymap.fitBounds(polyline.getBounds());
+
+
+  
+<% end %>
+
