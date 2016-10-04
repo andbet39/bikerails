@@ -3,6 +3,29 @@ class YourTrackController < ApplicationController
   def index
   end
 
+  def viewjs
+  
+    @track = Track.find(params[:trk])  
+    
+    max_lat = @track.points.max_by(&:lat).lat
+    min_lat = @track.points.min_by(&:lat).lat
+    max_lng = @track.points.max_by(&:lng).lng
+    min_lng = @track.points.min_by(&:lng).lng
+
+    
+      gpx_file = GPX::GPXFile.new(:gpx_file => @track.gpx.path)
+    #@bounds = gpx_file.bounds
+    
+    @bounds={ "min_lat" => min_lat , "max_lat"=>max_lat , "min_lon" => min_lng, "max_lon" => max_lng }
+    
+
+    @props = { track: @track, points:@track.points ,bounds:@bounds}
+
+  
+  end
+
+
+
   def view
     @all_points=[]
     @alt_pts=[]
@@ -22,7 +45,9 @@ class YourTrackController < ApplicationController
             str = point.lat.to_s + "," + point.lng.to_s
             @all_points << str
    
+            if point.lat !=nil && point.lng != nil && old_pt.lng != nil && old_pt.lat != nil
             dist += distance [point.lat,point.lng],[old_pt.lat,old_pt.lng]
+            end
             
             if counter % take_by == 0
               diff = (old_pt_alt.real_elevation ? old_pt_alt.real_elevation : old_pt_alt.elevation )  - (point.real_elevation ? point.real_elevation : point.elevation) 
@@ -40,16 +65,9 @@ class YourTrackController < ApplicationController
           counter +=1
         end
 
-    logger.info ( track.gpx.path )
 
-    gpx_file = GPX::GPXFile.new(:gpx_file => track.gpx.path)
-    bound = gpx_file.bounds
-    boundstring = bound.min_lat.to_s  << "," << bound.min_lon.to_s << "," << bound.max_lat.to_s << "," <<bound.max_lon.to_s
-    logger.info ( boundstring )
-
-    seg = StravaUtils.getSegments boundstring
-    @segments =  seg['segments']
-        
+      @segments=[]
+      
   end
   
     def distance loc1, loc2

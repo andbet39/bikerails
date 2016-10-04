@@ -10,3 +10,9 @@
     </div>
 <% end %>
  
+ <%= form_tag({action: :importfit}, multipart: true) do %>
+  <%= file_field_tag 'fit_file' %>
+    <div class="actions">
+      <%= submit_tag 'Import Fit' %>
+    </div>
+<% end %>

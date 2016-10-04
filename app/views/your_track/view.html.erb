@@ -56,7 +56,7 @@ Descemption : <%= @total_desc %>
             }
 
             var plarr = L.PolylineUtil.decode(e.target.polypoints );
-            pl = L.polyline(plarr, {color: 'red',weight:3,smoothFactor:1}).addTo(mymap);
+            pl = L.polyline(plarr, {color: 'red',weight:5,smoothFactor:1}).addTo(mymap);
             console.log(pl);
         });
     });

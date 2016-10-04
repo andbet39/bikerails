@@ -41,6 +41,8 @@ gem 'chartjs-ror'
 gem 'strava-api-v3'
 gem "react_on_rails", "~> 6"
 
+gem 'fit-parser', '~> 0.0.2'
+
 gem "paperclip"
 gem 'tzinfo-data', platforms: [:mingw, :mswin]
 group :development, :test do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928094005) do
+ActiveRecord::Schema.define(version: 20160930091533) do
 
   create_table "points", force: :cascade do |t|
     t.float    "lat"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 20160928094005) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.float    "real_elevation"
+    t.float    "distance"
+    t.float    "rate"
   end
 
   add_index "points", ["track_id"], name: "index_points_on_track_id"

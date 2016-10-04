@@ -1,8 +1,43 @@
 class TrackImportController < ApplicationController
   
-  
+  require 'fit'
+
   def index
   end
+
+  def importfit
+  
+    file = params[:fit_file]
+
+    fit_file = Fit.load_file(file.tempfile)
+
+    db_track = Track.new
+    db_track.save!
+    
+    fit_file.records.select {|r| r.content && r.content.record_type == :record }.each do |r|
+        begin
+              pr = r.content
+              dbpnt =  Point.new
+              dbpnt.elevation = pr.altitude.to_f if pr.respond_to?(:altitude)
+              dbpnt.lat= convert_position(pr.position_lat) if pr.respond_to?(:position_lat)
+              dbpnt.lng  = convert_position(pr.position_long) if pr.respond_to?(:position_lat)
+              dbpnt.track = db_track
+              dbpnt.distance = pr.distance if pr.respond_to?(:distance)
+              dbpnt.rate=0
+              if dbpnt.lat != nil || dbpnt.lng != nil
+                dbpnt.save!
+              end
+        rescue => e
+          logger.debug {"#{e.message} for #{r}"}
+        
+        end
+    end
+
+  
+    render json: "success"
+  end
+
+
 
   def import
     
@@ -18,17 +53,36 @@ class TrackImportController < ApplicationController
 
       db_track.save!
 
-
+      dist=0
+      old_pt =nil
+      rate = 0
       track.segments.each() do |segment|
         segment.points.each() do |point|
           
+          if old_pt != nil
+            diff = distance [point.lat,point.lon],[old_pt.lat,old_pt.lon]
+            dist += diff
+            rate = ((old_pt.elevation - point.elevation)/(dist/100))*100
+            
+            if rate >20
+              rate =20
+            end
+            if rate < -20 
+              rate =-20
+            end
+          else
+            dist=0
+          end
           dbpnt =  Point.new
           dbpnt.elevation = point.elevation
           dbpnt.lat= point.lat
           dbpnt.lng  = point.lon
           dbpnt.track = db_track
+          dbpnt.distance = dist
+          dbpnt.rate=rate
           dbpnt.save!
 
+          old_pt=point
         end
       end
       
@@ -90,7 +144,7 @@ class TrackImportController < ApplicationController
     
     base_path="https://maps.googleapis.com/maps/api/elevation/json?key=AIzaSyCkxObmz0mpN1r6mjM-JYg1fQmn_OFDOko&path="
     samples=0
-  take_by = 30
+    take_by = 30
 
 
     @all_points_str=""
@@ -159,6 +213,8 @@ class TrackImportController < ApplicationController
   
   
   
-
+def convert_position(value)
+      (8.381903171539307e-08 * value).round(5)
+    end
 
 end
