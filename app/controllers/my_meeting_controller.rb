@@ -1,5 +1,6 @@
 class MyMeetingController < ApplicationController
   def index
+    @props=[]
   end
 
   def create
