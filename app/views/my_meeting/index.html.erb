@@ -1,4 +1,6 @@
 <h1>MyMeeting#index</h1>
 <p>Find me in app/views/my_meeting/index.html.erb</p>
+<div class="container">
+  <%= react_component("NewMeetingApp", props: @props , prerender: false) %>
 
-<%= react_component("NewMeetingApp", props: @props , prerender: false) %>
+</div>

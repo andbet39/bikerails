@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Map, Marker, Popup, TileLayer,Polyline } from 'react-leaflet';
 import axios  from 'axios';
 import Geosuggest from 'react-geosuggest';
+import Datetime from 'react-datetime';
 
 export default class NewMeet extends React.Component {
   static propTypes = {
@@ -59,7 +60,41 @@ export default class NewMeet extends React.Component {
 
     return (
       <div>
-          <Geosuggest           onSuggestSelect={(e)=>this.onSuggestSelect(e)}/>
+          <h2>New Ride Information</h2>
+
+          <form>
+              <div className="row">
+                  <div className="form-group col-md-6">
+                      <label >Title</label>
+                      <input type="text" className="form-control" id="title" placeholder="Ride Title"/>
+                  </div>
+                  <div className="form-group col-md-3">
+                      <label >Start address</label>
+                      <Geosuggest inputClassName="form-control" className="mysuggest" id="address" placeholder={"Start Address"} onSuggestSelect={(e)=>this.onSuggestSelect(e)}/>
+                  </div>
+                  <div className="form-group col-md-3">
+                      <label >Start Date</label>
+                      <Datetime dateFormat={"D-M-Y"} />
+                  </div>
+              </div>
+
+              <div className="row">
+                  <div className="form-group col-md-12">
+                      <label >Description</label>
+                      <textarea className="form-control" id="title" placeholder="Ride Description"/>
+                  </div>
+              </div>
+              <div className="row">
+
+              </div>
+              <div className="row">
+                  <div className="col-md-12">
+                      <button className="btn btn-success">Save</button>
+                  </div>
+              </div>
+
+
+          </form>
 
           <Map ref={(ref) => this.map = ref} center={position} zoom={mapzoom} onclick={(e)=>this.handleMapClick(e)}>
           <TileLayer
@@ -69,6 +104,7 @@ export default class NewMeet extends React.Component {
             {marker}
 
         </Map>
+
 
     </div>
     );

@@ -60,3 +60,4 @@ end
 
 
 gem 'mini_racer', platforms: :ruby
+gem 'bootstrap-sass', '~> 3.3.6'

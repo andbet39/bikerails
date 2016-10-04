@@ -1,20 +1,10 @@
 {
-  "name": "react-webpack-rails-tutorial",
-  "version": "0.0.1",
-  "engines": {
-    "node": "5.10.0",
-    "npm": "3.5.0"
-  },
-  "scripts": {
-    "build:test": "webpack --config webpack.config.js",
-    "build:production": "NODE_ENV=production webpack --config webpack.config.js",
-    "build:development": "webpack -w --config webpack.config.js"
-  },
-  "cacheDirectories": [
-    "node_modules",
-    "client/node_modules"
-  ],
+  "name": "client",
+  "version": "1.0.0",
+  "description": "example of server rendering",
+  "main": "js/app.js",
   "dependencies": {
+    "autoprefixer": "^6.3.5",
     "axios": "^0.14.0",
     "babel": "^6.5.2",
     "babel-cli": "^6.6.5",
@@ -25,20 +15,63 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-runtime": "^6.6.1",
+    "css-loader": "^0.23.1",
     "es5-shim": "^4.5.7",
     "expose-loader": "^0.7.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
     "imports-loader": "^0.6.5",
+    "jquery": "^2.2.2",
+    "jquery-ujs": "^1.2.1",
     "leaflet": "^0.7.7",
+    "loader-utils": "^0.2.13",
+    "lodash": "^4.7.0",
+    "moment": "^2.15.1",
+    "node-libs-browser": "^1.0.0",
+    "node-sass": "^3.4.2",
     "polyline-encoded": "0.0.8",
+    "postcss-loader": "^0.8.2",
     "react": "^0.14.8 || ^15.0.0",
-    "react-addons-shallow-compare": "^15.3.2",
     "react-addons-transition-group": "^15.3.2",
+    "react-datetime": "^2.6.0",
     "react-dom": "^0.14.8 || ^15.0.0",
-    "react-geosuggest": "^1.25.1",
     "react-leaflet": "^0.12.3",
     "react-on-rails": "6.1.1",
     "recharts": "^0.15.1",
+    "sass-loader": "^3.2.0",
+    "sass-resources-loader": "1.0.2",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
     "webpack": "^1.12.14"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-plugin-react-transform": "^2.0.2",
+    "body-parser": "^1.15.0",
+    "eslint": "^2.6.0",
+    "eslint-config-shakacode": "^4.0.0",
+    "eslint-plugin-react": "^4.2.3",
+    "jscs": "^2.11.0",
+    "react-transform-hmr": "^1.0.4",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "browser": {
+    "fs": false
+  },
+  "scripts": {
+    "lint": "npm run eslint --silent && npm run jscs --silent",
+    "eslint": "eslint --ext .js,.jsx .",
+    "jscs": "jscs --verbose .",
+    "jscs:fix": "jscs --verbose -x . --silent",
+    "test": "npm run build:test && rspec",
+    "build:test": "npm run build:client && npm run build:server",
+    "build:production:client": "NODE_ENV=production webpack --config webpack.client.rails.build.config.js",
+    "build:production:server": "NODE_ENV=production webpack --config webpack.server.rails.build.config.js",
+    "build:client": "webpack --config webpack.client.rails.build.config.js",
+    "build:dev:client": "webpack -w --config webpack.client.rails.build.config.js",
+    "build:dev:server": "webpack -w --config webpack.server.rails.build.config.js",
+    "build:server": "webpack --config webpack.server.rails.build.config.js",
+    "hot-assets": "babel-node server-rails-hot.js",
+    "install-react-on-rails": "npm install 'react-on-rails@../../..'"
+  },
+  "author": ""
 }

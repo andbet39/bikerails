@@ -7,4 +7,3 @@ const TrackViewApp = (props) => (
   <TrackView {...props} />
 );
 
-ReactOnRails.register({ TrackViewApp });
