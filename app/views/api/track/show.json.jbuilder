@@ -1,6 +1,5 @@
 json.track do
     json.partial! "tracks/track", track: @track
-    json.bounds @track.bounds
     json.points do
        json.array!(@track.points) do |p|
               json.id p.id

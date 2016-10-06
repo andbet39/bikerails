@@ -10,14 +10,14 @@ class Api::TrackController < ApplicationController
         @track.save!
         
         
-        gpx_file.tracks.each() do |track|
-          track.segments.each() do |segment|
-            segment.points.each() do |point|
-              @track.points.create( elevation: point.elevation, lat: point.lat, lng: point.lon )
-               response.stream.write "Progress"
-             end
-          end
-        end
+        #gpx_file.tracks.each() do |track|
+        #  track.segments.each() do |segment|
+        #    segment.points.each() do |point|
+        #      @track.points.create( elevation: point.elevation, lat: point.lat, lng: point.lon )
+        #       response.stream.write "Progress"
+        #     end
+        #  end
+        #end
         
        respond_to do |format|
           if @track.save

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161006084327) do
+ActiveRecord::Schema.define(version: 20161006191837) do
 
   create_table "meetings", force: :cascade do |t|
     t.string   "title"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20161006084327) do
     t.integer  "track_id"
     t.integer  "ride_level_id"
     t.integer  "ride_type_id"
+    t.text     "description"
   end
 
   create_table "points", force: :cascade do |t|

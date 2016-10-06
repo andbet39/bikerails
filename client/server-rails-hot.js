@@ -23,7 +23,7 @@ const hotRailsPort = process.env.HOT_RAILS_PORT || 8081;
 const compiler = webpack(webpackConfig);
 
 const devServer = new WebpackDevServer(compiler, {
-  contentBase: `http://bikerails-andbet391.c9users.io:${hotRailsPort}`,
+  contentBase: `http://localhost:${hotRailsPort}`,
   publicPath: webpackConfig.output.publicPath,
   hot: true,
   inline: true,

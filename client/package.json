@@ -20,6 +20,7 @@
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
+    "geojson-bbox": "0.0.0",
     "imports-loader": "^0.6.5",
     "jquery": "^2.2.2",
     "jquery-ujs": "^1.2.1",
@@ -61,8 +62,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "config": {
-    "unsafe-perm":true
-},
+    "unsafe-perm": true
+  },
   "browser": {
     "fs": false
   },

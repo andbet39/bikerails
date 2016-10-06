@@ -30,12 +30,13 @@ export default class NewMeet extends React.Component {
         bounds:[[41.0,10.0],[42.0,13.0]],
         file:null,
         ride_level:null,
-        ride_type:null
+        ride_type:null,
+        start_date:null
     };
   }
   
   componentDidMount(){
-       console.log("componentDidMount");
+       console.log("componentDreidMount");
   }
   
   
@@ -102,7 +103,75 @@ export default class NewMeet extends React.Component {
             ride_level: e
         });
     }
-    
+
+    handleChangeStart(newdate){
+        this.setState({
+           start_date: newdate
+        });
+    }
+
+    handleSave(e){
+
+        console.log("Handle Save");
+        let err="";
+        if(this.state.ride_type == null)
+            err+=<li>Ride Type must be set</li>;
+        if(this.state.ride_level == null)
+            err+=<li>Ride level must be set</li>;
+        if(this.title.value == "")
+            err+=<li>Title must be set</li>;
+        if(this.state.start_date == null)
+            err+=<li>Start date must be set</li>;
+
+        if(err == ""){
+            this.setState({
+                error:""
+            });
+            const newmeet = {
+                title: this.title.value,
+                description:this.description.value,
+                start_lat:this.state.start_position.lat,
+                start_lng:this.state.start_position.lng,
+                ride_type_id:this.state.ride_type.value,
+                ride_level_id:this.state.ride_level.value,
+                duration:this.duration.value,
+                start_time:this.state.start_date.format("YYYY-MM-DD HH:mm:ss"),
+                track_id:null
+            };
+
+            console.log(newmeet);
+
+            const csrfToken = ReactOnRails.authenticityToken();
+            var data = new FormData();
+            data.append('file', this.state.file);
+
+
+            axios.post('/api/track/import.json',data,{headers: {'X-CSRF-Token': csrfToken}})
+                .then((resp)=>{
+                    console.log(resp.data);
+
+                    newmeet.track_id=resp.data.track.id;
+
+                    axios.post('/meetings.json',newmeet,{headers: {'X-CSRF-Token': csrfToken}})
+                        .then((resp)=>{
+                            console.log(resp.data);
+                            window.location.href= "/meetings/"+resp.data.id;
+                        })
+                        .catch((err)=>{
+                            console.log(err)
+                        });
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+        }else{
+            this.setState({
+                error:err
+            });
+        }
+    }
+
+
 
   render() {
 
@@ -111,21 +180,26 @@ export default class NewMeet extends React.Component {
       let marker = "";
       let polyline=[];
       let pline="";
+      let err="";
 
       let geojsonlayer = "";
       let bounds  = this.state.bounds;
       
       let ride_level_options = [];
       this.props.ride_level.forEach((l)=>{
-         ride_level_options.push({value:l.val, label:l.name});
+         ride_level_options.push({value:l.id, label:l.name});
       });
       
       let ride_type_options =[];
       this.props.ride_type.forEach((l)=>{
-         ride_type_options.push({value:l.val, label:l.name});
+         ride_type_options.push({value:l.id, label:l.name});
       });
       
       const { geojson } = this.state;
+
+      if(this.state.error != "" && this.state.error !=null){
+          err= <div>There is some errors</div>
+      }
       
       if(geojson != null){
         geojsonlayer = <GeoJson data={geojson} ></GeoJson>
@@ -156,7 +230,7 @@ export default class NewMeet extends React.Component {
 
     return (
       <div>
-          <h2>New Ride Information</h2>
+          <h2>New Ride</h2>
           <div className="row">
             <div className="col-md-12">
                 <Map ref={(ref) => this.map = ref} center={position} zoom={mapzoom} bounds={bounds} onclick={(e)=>this.handleMapClick(e)}>
@@ -169,11 +243,11 @@ export default class NewMeet extends React.Component {
                 </Map>
             </div>
           </div>
-          <form>
+
               <div className="row">
                   <div className="form-group col-md-6">
                       <label >Title</label>
-                      <input type="text" className="form-control" id="title" placeholder="Ride Title"/>
+                      <input ref={(ref) => this.title = ref} type="text" className="form-control" id="title" placeholder="Ride Title"/>
                   </div>
                   <div className="form-group col-md-3">
                       <label >Start address</label>
@@ -181,14 +255,14 @@ export default class NewMeet extends React.Component {
                   </div>
                   <div className="form-group col-md-3">
                       <label >Start Date</label>
-                      <Datetime dateFormat={"D-M-Y"} />
+                      <Datetime ref={(ref) => this.start = ref}  onChange={(e)=>this.handleChangeStart(e)} dateFormat={"D-M-Y"} />
                   </div>
               </div>
 
                 <div className="row">   
                   <div className="form-group col-md-4">
                       <label >Duration</label>
-                      <input type="text" className="form-control" id="title" placeholder="Ride duration"/>
+                      <input ref={(ref) => this.duration = ref}  type="text" className="form-control" id="title" placeholder="Ride duration"/>
                   </div>
                   <div className="form-group col-md-4">
                       <label>Type</label>
@@ -213,7 +287,7 @@ export default class NewMeet extends React.Component {
               <div className="row">
                   <div className="form-group col-md-8">
                       <label >Description</label>
-                      <textarea className="form-control" id="title" placeholder="Ride Description"/>
+                      <textarea ref={(ref) => this.description = ref}  className="form-control" id="title" placeholder="Ride Description"/>
                   </div>
                   <div className="form-group col-md-4">
                     <label >GPX Track</label>
@@ -224,15 +298,10 @@ export default class NewMeet extends React.Component {
               
               <div className="row">
                 <div className="col-md-12">
-                    <button className="btn btn-success">Save</button>
+                    {err}
+                    <button onClick={(e)=>this.handleSave(e)} className="btn btn-success">Save</button>
                 </div>
               </div>
-
-
-          </form>
-
-         
-
 
     </div>
     );
