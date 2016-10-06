@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @ride_level.name %>
+</p>
+
+<p>
+  <strong>Val:</strong>
+  <%= @ride_level.val %>
+</p>
+
+<%= link_to 'Edit', edit_ride_level_path(@ride_level) %> |
+<%= link_to 'Back', ride_levels_path %>

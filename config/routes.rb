@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :ride_types
+  resources :ride_levels
   get 'hello_world', to: 'hello_world#index'
   get 'my_meeting/index'
 
@@ -9,6 +11,7 @@ Rails.application.routes.draw do
   resources :meetings
   namespace :api do
   get 'strava_segment/getForTrack'
+    post 'track/import'
   end
 
   namespace :api do

@@ -1,6 +1,8 @@
 class MyMeetingController < ApplicationController
   def index
-    @props=[]
+    ride_level = RideLevel.all
+    ride_type  =RideType.all
+    @props={ride_level: ride_level , ride_type: ride_type}
   end
 
   def create

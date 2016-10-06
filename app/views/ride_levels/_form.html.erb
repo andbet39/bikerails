@@ -1,0 +1,25 @@
+<%= form_for(@ride_level) do |f| %>
+  <% if @ride_level.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ride_level.errors.count, "error") %> prohibited this ride_level from being saved:</h2>
+
+      <ul>
+      <% @ride_level.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :val %><br>
+    <%= f.number_field :val %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

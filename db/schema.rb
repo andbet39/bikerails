@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161004120705) do
+ActiveRecord::Schema.define(version: 20161006084327) do
 
   create_table "meetings", force: :cascade do |t|
     t.string   "title"
@@ -19,8 +19,11 @@ ActiveRecord::Schema.define(version: 20161004120705) do
     t.float    "start_lng"
     t.datetime "start_time"
     t.float    "duration"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "track_id"
+    t.integer  "ride_level_id"
+    t.integer  "ride_type_id"
   end
 
   create_table "points", force: :cascade do |t|
@@ -37,6 +40,21 @@ ActiveRecord::Schema.define(version: 20161004120705) do
   end
 
   add_index "points", ["track_id"], name: "index_points_on_track_id"
+
+  create_table "ride_levels", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "val"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ride_types", force: :cascade do |t|
+    t.string   "name"
+    t.string   "image"
+    t.string   "icon"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "tracks", force: :cascade do |t|
     t.string   "name"

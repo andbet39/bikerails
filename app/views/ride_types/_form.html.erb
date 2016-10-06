@@ -1,0 +1,29 @@
+<%= form_for(@ride_type) do |f| %>
+  <% if @ride_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ride_type.errors.count, "error") %> prohibited this ride_type from being saved:</h2>
+
+      <ul>
+      <% @ride_type.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :image %><br>
+    <%= f.text_field :image %>
+  </div>
+  <div class="field">
+    <%= f.label :icon %><br>
+    <%= f.text_field :icon %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

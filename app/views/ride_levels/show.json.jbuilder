@@ -1,0 +1,1 @@
+json.partial! "ride_levels/ride_level", ride_level: @ride_level

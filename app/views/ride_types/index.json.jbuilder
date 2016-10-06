@@ -1,0 +1,1 @@
+json.array! @ride_types, partial: 'ride_types/ride_type', as: :ride_type

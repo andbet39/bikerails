@@ -1,0 +1,1 @@
+json.partial! "ride_types/ride_type", ride_type: @ride_type

@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Ride Types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Image</th>
+      <th>Icon</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ride_types.each do |ride_type| %>
+      <tr>
+        <td><%= ride_type.name %></td>
+        <td><%= ride_type.image %></td>
+        <td><%= ride_type.icon %></td>
+        <td><%= link_to 'Show', ride_type %></td>
+        <td><%= link_to 'Edit', edit_ride_type_path(ride_type) %></td>
+        <td><%= link_to 'Destroy', ride_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ride type', new_ride_type_path %>

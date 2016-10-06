@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @ride_type.name %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <%= @ride_type.image %>
+</p>
+
+<p>
+  <strong>Icon:</strong>
+  <%= @ride_type.icon %>
+</p>
+
+<%= link_to 'Edit', edit_ride_type_path(@ride_type) %> |
+<%= link_to 'Back', ride_types_path %>
