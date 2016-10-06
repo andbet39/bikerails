@@ -6,8 +6,11 @@
   "engines": {
     "node": "4.2.0"
   },
+  "config": {
+    "unsafe-perm":true
+  },
   "scripts": {
-    "postinstall": "cd ./client && npm install",
+    "postinstall": "cd ./client && npm install --no-bin-links",
     "gulp": "cd ./client && npm run gulp",
     "test": "npm run build:test && npm run lint && rspec",
     "lint": "cd client && npm run lint",

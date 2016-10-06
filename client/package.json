@@ -60,6 +60,9 @@
     "react-transform-hmr": "^1.0.4",
     "webpack-dev-server": "^1.14.1"
   },
+  "config": {
+    "unsafe-perm":true
+},
   "browser": {
     "fs": false
   },
