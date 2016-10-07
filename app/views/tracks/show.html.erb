@@ -5,5 +5,12 @@
   <%= @track.name %>
 </p>
 
+
+<p>
+  <strong>File:</strong>
+  <%= @track.gpx.url %>
+</p>
+
+
 <%= link_to 'Edit', edit_track_path(@track) %> |
 <%= link_to 'Back', tracks_path %>
