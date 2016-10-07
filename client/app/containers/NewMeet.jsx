@@ -216,7 +216,7 @@ export default class NewMeet extends React.Component {
       let dropzone =""; 
       if(!this.state.geojson){
         dropzone = <Dropzone ref={(node) => { this.dropzone = node; }} onDrop={(files)=>{this.onDrop(files)}}>
-                    <div>DRag a GPX file here</div>
+                    <div>Drag a GPX file here</div>
                 </Dropzone>
       }else{
           dropzone =<div>{ this.state.file.name }  <button className="btn btn-sm btn-danger" onClick={()=>this.resetTrack()}>Reset</button></div>;
@@ -224,7 +224,7 @@ export default class NewMeet extends React.Component {
 
   
       if(this.state.start_isset){
-          mapzoom=17
+          mapzoom=17;
       }
 
 

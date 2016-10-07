@@ -9,5 +9,8 @@ class MyMeetingController < ApplicationController
   end
 
   def view
+    @meeting = Meeting.find(params[:meet_id])
+    @props={track: @meeting.track, points: @meeting.track.points ,bounds:@meeting.track.bounds}
+    @signup_props={current_user: current_user, meeting: @meeting}
   end
 end

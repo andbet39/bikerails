@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :ride_types
   resources :ride_levels
   get 'hello_world', to: 'hello_world#index'
@@ -10,8 +11,9 @@ Rails.application.routes.draw do
 
   resources :meetings
   namespace :api do
-  get 'strava_segment/getForTrack'
+    get 'strava_segment/getForTrack'
     post 'track/import'
+    get 'track/elaborate'
   end
 
   namespace :api do
@@ -39,7 +41,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+   root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

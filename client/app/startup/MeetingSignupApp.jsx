@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactOnRails from 'react-on-rails';
 
-import TrackView from '../containers/TrackView';
+import SignupView from '../containers/SignupView';
 
 
 export default (props) => (
-    <TrackView {...props} />
+    <SignupView {...props} />
 );

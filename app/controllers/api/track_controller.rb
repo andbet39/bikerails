@@ -1,5 +1,31 @@
 class Api::TrackController < ApplicationController
-    
+
+  require  'polylines'
+
+
+  def elaborate
+      dbtrack  = Track.find(params[:trk])
+
+      gpx_file = GPX::GPXFile.new(:gpx_file => dbtrack.gpx.path)
+      points = []
+      dbtrack.points.delete_all
+        gpx_file.tracks.each() do |track|
+        track.segments.each() do |segment|
+            segment.points.each() do |point|
+              dbtrack.points.create( elevation: point.elevation, lat: point.lat, lng: point.lon )
+              points << [ point.lat, point.lon]
+            end
+          end
+      end
+
+      dbtrack.is_elaborate = true
+      dbtrack.polyline = Polylines::Encoder.encode_points(points)
+      dbtrack.save
+
+      render json: dbtrack
+
+    end
+
     def import
         file = params[:file]
         @allpoints=[]

@@ -1,2 +1,18 @@
-<h1>MyMeeting#view</h1>
-<p>Find me in app/views/my_meeting/view.html.erb</p>
+<div class="container">
+  <h1><%= @meeting.title %></h1>
+
+  <div class="row">
+    <div class="col-md-4">
+      <%= react_component("TrackViewApp", props: @props , prerender: false) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <%= react_component("MeetingSignupApp", props: @signup_props , prerender: false) %>
+    </div>
+  </div>
+
+
+</div>
+
