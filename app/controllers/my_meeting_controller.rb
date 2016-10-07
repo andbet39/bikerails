@@ -10,7 +10,9 @@ class MyMeetingController < ApplicationController
 
   def view
     @meeting = Meeting.find(params[:meet_id])
+    @partecipants = Participation.where(meeting_id: @meeting.id).includes(:user)
+
     @props={track: @meeting.track, points: @meeting.track.points ,bounds:@meeting.track.bounds}
-    @signup_props={current_user: current_user, meeting: @meeting}
+    @signup_props={current_user: current_user, meeting: @meeting, participations:@partecipants}
   end
 end

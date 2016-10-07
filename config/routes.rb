@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :participations
   devise_for :users
   resources :ride_types
   resources :ride_levels
