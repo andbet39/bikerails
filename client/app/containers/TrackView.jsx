@@ -15,11 +15,19 @@ export default class TrackView extends React.Component {
     this.state = { 
       track: this.props.track,
       points:this.props.points,
-      position:[this.props.points[0].lng,this.props.points[0].lat],
       bounds:this.props.bounds,
     };
-    
-    console.log(this.props.bounds);
+    if(this.props.points[0]){
+      this.setState({
+            position:[this.props.points[0].lng,this.props.points[0].lat]
+          });
+    }else{
+      this.setState({
+        position:[42,13]
+      });
+    }
+
+        console.log(this.props.bounds);
   }
   
   componentDidMount(){

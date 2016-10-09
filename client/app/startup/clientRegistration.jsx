@@ -4,10 +4,12 @@ import NewMeetingApp from './NewMeetingApp';
 import TrackViewApp from './TrackViewApp';
 import MeetingSignupApp from './MeetingSignupApp';
 import MapSearchViewApp from './MapSearchViewApp';
+import LikeButtonApp from './LikeButtonApp';
 
 ReactOnRails.register({
     NewMeetingApp,
     TrackViewApp,
     MeetingSignupApp,
-    MapSearchViewApp
+    MapSearchViewApp,
+    LikeButtonApp
 });

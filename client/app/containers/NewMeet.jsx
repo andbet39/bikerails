@@ -8,6 +8,7 @@ import ReactOnRails from 'react-on-rails';
 import request from 'superagent';
 import toGeoJSON from 'togeojson';
 import Select from 'react-select';
+import TinyMCE from 'react-tinymce';
 
 // Be sure to include styles at some point, probably during your bootstrapping
 import 'react-select/dist/react-select.css';
@@ -31,7 +32,8 @@ export default class NewMeet extends React.Component {
         file:null,
         ride_level:null,
         ride_type:null,
-        start_date:null
+        start_date:null,
+        description:""
     };
   }
   
@@ -129,7 +131,7 @@ export default class NewMeet extends React.Component {
             });
             const newmeet = {
                 title: this.title.value,
-                description:this.description.value,
+                description:this.state.description,
                 start_lat:this.state.start_position.lat,
                 start_lng:this.state.start_position.lng,
                 ride_type_id:this.state.ride_type.value,
@@ -145,8 +147,17 @@ export default class NewMeet extends React.Component {
             var data = new FormData();
             data.append('file', this.state.file);
 
+            var config = {
+                onUploadProgress: (progressEvent) =>{
+                    var percentCompleted = progressEvent.loaded / progressEvent.total;
+                    console.log(percentCompleted);
+                },
+                headers: {'X-CSRF-Token': csrfToken}
+            };
 
-            axios.post('/api/track/import.json',data,{headers: {'X-CSRF-Token': csrfToken}})
+
+
+            axios.post('/api/track/import.json',data,config)
                 .then((resp)=>{
                     console.log(resp.data);
 
@@ -170,7 +181,11 @@ export default class NewMeet extends React.Component {
             });
         }
     }
-
+    handleEditorChange(e    ){
+        this.setState({
+            description:e.target.getContent()
+        })
+    }
 
 
   render() {
@@ -287,7 +302,14 @@ export default class NewMeet extends React.Component {
               <div className="row">
                   <div className="form-group col-md-8">
                       <label >Description</label>
-                      <textarea ref={(ref) => this.description = ref}  className="form-control" id="title" placeholder="Ride Description"/>
+                      <TinyMCE
+                          content="<p>A brief description of the ride</p>"
+                          config={{
+                              plugins: 'link',
+                              toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+                          }}
+                          onChange={(e)=>this.handleEditorChange(e)}
+                      />
                   </div>
                   <div className="form-group col-md-4">
                     <label >GPX Track</label>

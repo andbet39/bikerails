@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - bikerails@192.168.99.100" uuid="98489627-16a6-4188-a323-fe085d32590e">
+      <secret-storage>master_key</secret-storage>
+      <user-name>bikerails</user-name>
+      <introspection-scope>bikerails:public,pg_catalog,bikerails</introspection-scope>
+      <resolve-scope>bikerails:public,bikerails</resolve-scope>
+    </data-source>
+  </component>
+</project>

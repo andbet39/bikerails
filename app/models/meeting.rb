@@ -3,7 +3,7 @@ class Meeting < ActiveRecord::Base
     acts_as_mappable :default_units => :kms,
                      :lat_column_name => :start_lat,
                      :lng_column_name => :start_lng
-
+    acts_as_votable
 
     belongs_to :ride_level
     belongs_to :ride_type

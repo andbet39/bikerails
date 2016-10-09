@@ -11,14 +11,14 @@ const config = require('./webpack.client.base.config');
 const hotRailsPort = process.env.HOT_RAILS_PORT || 3500;
 
 config.entry.app.push(
-    `webpack-dev-server/client?http://localhost:${hotRailsPort}`,
+    `webpack-dev-server/client?http://192.168.99.100:${hotRailsPort}`,
     'webpack/hot/only-dev-server'
 );
 
 config.output = {
   filename: '[name]-bundle.js',
   path: path.join(__dirname, 'public'),
-  publicPath: `http://localhost:${hotRailsPort}/`,
+  publicPath: `http://192.168.99.100:${hotRailsPort}/`,
 };
 
 config.module.loaders.push(

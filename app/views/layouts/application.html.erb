@@ -8,8 +8,8 @@
 
   <!-- These do not use turbolinks, so no data-turbolinks-track -->
   <!-- This is to load the hot assets. -->
-  <%= env_javascript_include_tag(hot: ['http://localhost:3500/vendor-bundle.js',
-                                       'http://localhost:3500/app-bundle.js']) %>
+  <%= env_javascript_include_tag(hot: ['http://192.168.99.100:3500/vendor-bundle.js',
+                                       'http://192.168.99.100:3500/app-bundle.js']) %>
 
   <!-- These do use turbolinks -->
   <%= env_javascript_include_tag(static: 'application_static',
@@ -21,6 +21,7 @@
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8b-2YI_vhjM3tSFd8tpaCJh8XK-7vew0&libraries=places"></script>
   <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+  <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 
   <%= csrf_meta_tags %>
 </head>
@@ -49,6 +50,7 @@
             <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
         <% else %>
             <li><%= link_to('Sign in', new_user_session_path) %></li>
+            <li><%= link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path %></li>
             <li><%= link_to('Sign up', new_user_registration_path) %></li>
         <% end %>
       </ul>

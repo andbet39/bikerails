@@ -50,6 +50,10 @@ gem 'strava-api-v3'
 gem "react_on_rails", "~> 6"
 
 gem 'fit-parser', '~> 0.0.2'
+gem 'omniauth-facebook'
+
+gem 'acts_as_votable', '~> 0.10.0'
+
 
 gem "paperclip"
 gem 'tzinfo-data', platforms: [:mingw, :mswin]

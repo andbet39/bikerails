@@ -14,6 +14,8 @@ class MyMeetingController < ApplicationController
 
     @props={track: @meeting.track, points: @meeting.track.points ,bounds:@meeting.track.bounds}
     @signup_props={current_user: current_user, meeting: @meeting, participations:@partecipants}
+
+
   end
 
   def search
