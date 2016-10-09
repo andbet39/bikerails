@@ -116,7 +116,7 @@ export default class MapSearchView extends React.Component {
 
       let meetings = this.state.meetings.map((meet)=>{
 
-          return <SearchResult meeting={meet}></SearchResult>
+          return <SearchResult key={meet.id} meeting={meet}></SearchResult>
       });
       let alertnew="";
       if (this.state.meetings.length == 0 || this.state.meetings==null){
