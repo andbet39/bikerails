@@ -31,7 +31,7 @@ export default class LikeButton extends React.Component {
 
         const csrfToken = ReactOnRails.authenticityToken();
 
-        axios.get('/api/like/like?udi='+this.state.current_user.id+'&meet_id='+ this.state.meet_id
+        axios.get('/api/like/like?uid='+this.state.current_user.id+'&meet_id='+ this.state.meet_id
             ,{headers: {'X-CSRF-Token': csrfToken}})
             .then((resp)=>{
                 let votes = this.state.votes + 1;
