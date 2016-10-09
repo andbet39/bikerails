@@ -45,7 +45,7 @@ export default class LikeButton extends React.Component {
     handleDisLike(){
         const csrfToken = ReactOnRails.authenticityToken();
 
-        axios.get('/api/dislike/vote?uid='+this.state.current_user.id+'&meet_id='+ this.state.meet_id,
+        axios.get('/api/like/dislike?uid='+this.state.current_user.id+'&meet_id='+ this.state.meet_id,
             {headers: {'X-CSRF-Token': csrfToken}})
             .then((resp)=>{
                 let votes = this.state.votes - 1;

@@ -42,6 +42,7 @@
     "react-leaflet": "^0.12.3",
     "react-on-rails": "6.1.1",
     "react-select": "^1.0.0-rc.2",
+    "react-swal": "^2.0.0",
     "react-timeout": "^1.0.0",
     "react-tinymce": "^0.5.1",
     "recharts": "^0.15.1",

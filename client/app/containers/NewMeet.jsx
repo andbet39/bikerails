@@ -9,9 +9,11 @@ import request from 'superagent';
 import toGeoJSON from 'togeojson';
 import Select from 'react-select';
 import TinyMCE from 'react-tinymce';
+import SweetAlert from 'react-swal';
 
 // Be sure to include styles at some point, probably during your bootstrapping
 import 'react-select/dist/react-select.css';
+import 'sweetalert/dist/sweetalert.css';
 
 var bbox = require('geojson-bbox');
 
@@ -33,16 +35,15 @@ export default class NewMeet extends React.Component {
         ride_level:null,
         ride_type:null,
         start_date:null,
-        description:""
+        description:"",
+        successopen:false,
+        enableOk:false,
+        swal_message:"Uploading your meeting track...",
+        swal_title:"Uploading...",
+        meet_id:null
     };
   }
-  
-  componentDidMount(){
-       console.log("componentDreidMount");
-  }
-  
-  
-  
+
     handleMapClick(e){
         console.log(e);
         this.setState({
@@ -115,6 +116,8 @@ export default class NewMeet extends React.Component {
     handleSave(e){
 
         console.log("Handle Save");
+
+
         let err="";
         if(this.state.ride_type == null)
             err+=<li>Ride Type must be set</li>;
@@ -127,7 +130,10 @@ export default class NewMeet extends React.Component {
 
         if(err == ""){
             this.setState({
-                error:""
+                error:"",
+                successopen:true,
+                swal_message:"Uploading your meeting track...",
+                swal_title:"Uploading..."
             });
             const newmeet = {
                 title: this.title.value,
@@ -141,8 +147,6 @@ export default class NewMeet extends React.Component {
                 track_id:null
             };
 
-            console.log(newmeet);
-
             const csrfToken = ReactOnRails.authenticityToken();
             var data = new FormData();
             data.append('file', this.state.file);
@@ -155,21 +159,28 @@ export default class NewMeet extends React.Component {
                 headers: {'X-CSRF-Token': csrfToken}
             };
 
-
-
             axios.post('/api/track/import.json',data,config)
                 .then((resp)=>{
-                    console.log(resp.data);
 
                     newmeet.track_id=resp.data.track.id;
 
                     axios.post('/meetings.json',newmeet,{headers: {'X-CSRF-Token': csrfToken}})
                         .then((resp)=>{
                             console.log(resp.data);
-                            window.location.href= "/my_meeting/view?meet_id="+resp.data.id;
+                            this.setState({
+                                enableOk:true,
+                                swal_message:"Your meeting is ready!",
+                                swal_title:"Saved!",
+                                meet_id:resp.data.id
+                            });
                         })
                         .catch((err)=>{
-                            console.log(err)
+                            console.log(err);
+                            this.setState({
+                                enableOk:true,
+                                swal_message:"There was some errors... Retry!",
+                                swal_title:"Error!"
+                            })
                         });
                 })
                 .catch((err)=>{
@@ -186,7 +197,26 @@ export default class NewMeet extends React.Component {
             description:e.target.getContent()
         })
     }
+    handleSuccess(){
+        this.setState(
+            {successopen:false}
+        );
+        window.location.href= "/my_meeting/view?meet_id="+this.state.meet_id;
+    }
 
+    handleTest(){
+        this.setState({
+            error:"",
+            successopen:true
+        });
+        setTimeout(()=>{
+            this.setState({
+                enableOk:true,
+                swal_message:"Your meeting is ready!",
+                swal_title:"Saved!"
+            });
+        },1000)
+    }
 
   render() {
 
@@ -322,9 +352,18 @@ export default class NewMeet extends React.Component {
                 <div className="col-md-12">
                     {err}
                     <button onClick={(e)=>this.handleSave(e)} className="btn btn-success">Save</button>
+                    <button onClick={(e)=>this.handleTest(e)} className="btn btn-success">Test</button>
                 </div>
               </div>
 
+          <SweetAlert isOpen={this.state.successopen}
+                      type="success"
+                      showCancelButton={false}
+                      showConfirmButton={this.state.enableOk}
+                      title={this.state.swal_title}
+                      text={this.state.swal_message}
+                      confirmButtonText="Ok"
+                      callback={()=>this.handleSuccess()} />
     </div>
     );
   }
