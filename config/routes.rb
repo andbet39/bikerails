@@ -9,12 +9,14 @@ Rails.application.routes.draw do
   get 'my_meeting/create'
 
   get 'my_meeting/view'
+  get 'my_meeting/search'
 
   resources :meetings
   namespace :api do
     get 'strava_segment/getForTrack'
     post 'track/import'
     get 'track/elaborate'
+    get 'meeting/search'
   end
 
   namespace :api do
@@ -42,7 +44,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'welcome#index'
+   root 'my_meeting#search'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

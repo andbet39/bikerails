@@ -155,7 +155,7 @@ export default class NewMeet extends React.Component {
                     axios.post('/meetings.json',newmeet,{headers: {'X-CSRF-Token': csrfToken}})
                         .then((resp)=>{
                             console.log(resp.data);
-                            window.location.href= "/meetings/"+resp.data.id;
+                            window.location.href= "/my_meeting/view?meet_id="+resp.data.id;
                         })
                         .catch((err)=>{
                             console.log(err)

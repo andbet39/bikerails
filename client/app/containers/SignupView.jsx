@@ -45,8 +45,25 @@ export default class SignupView extends React.Component {
 
   }
 
-    handleLeaveMeeting(){
+    handleLeaveMeeting(toremove){
 
+        console.log(toremove);
+
+        const csrfToken = ReactOnRails.authenticityToken();
+        axios.delete('/participations/'+toremove.id+'.json',{headers: {'X-CSRF-Token': csrfToken}})
+            .then((resp)=>{
+                console.log(resp.data);
+
+                let partecipants = this.state.participations;
+                partecipants.splice(partecipants.indexOf(toremove),1)
+                ;
+                this.setState({
+                    participations:partecipants
+                })
+            })
+            .catch((err)=>{
+                console.log(err)
+            });
 
     }
 
@@ -54,22 +71,24 @@ export default class SignupView extends React.Component {
         let signed = "";
         let button ="";
         let found=false;
+        let toremove={};
 
         if(this.state.participations != null){
             signed  = this.state.participations.map((p)=>{
 
-            return <li>{p.user.email}</li>
+            return <li key={p.id} >{p.user.email}</li>
         });
 
         this.state.participations.forEach((a)=>{
                if(a.user.id == this.state.current_user.id){
                    found=true;
+                   toremove= a;
                }
             });
         }
 
         if(found){
-            button = <button onClick={()=>this.handleLeaveMeeting()}className="btn btn-danger">Signout!</button>
+            button = <button onClick={()=>this.handleLeaveMeeting(toremove)}className="btn btn-danger">Signout!</button>
 
         }else{
             button = <button onClick={()=>this.handleJoinMeeting()}className="btn btn-success">Signup!</button>
@@ -80,7 +99,7 @@ export default class SignupView extends React.Component {
 
     return (
       <div>
-        <h4>Signed people</h4>
+        <h4>{this.state.participations.length} Signed people</h4>
         <ul>
           {signed}
         </ul>

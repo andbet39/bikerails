@@ -2,7 +2,7 @@ class Track < ActiveRecord::Base
     has_attached_file :gpx
     do_not_validate_attachment_file_type :gpx
 
-    has_many :points
+    has_many :points, -> { order 'time asc' }
     
     def bounds
         max_lat = self.points.max_by(&:lat).lat

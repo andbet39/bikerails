@@ -1,13 +1,18 @@
 <div class="container">
   <h1><%= @meeting.title %></h1>
 
-  <div class="row">
+    <div class="row">
+      <div class="col-md-4">
+
+        <%= render :partial => "trackInfo" %>
+        <%= render :partial => "meetingInfo" %>
+
+      </div>
+
     <div class="col-md-4">
       <%= react_component("TrackViewApp", props: @props , prerender: false) %>
     </div>
-  </div>
 
-  <div class="row">
     <div class="col-md-4">
       <%= react_component("MeetingSignupApp", props: @signup_props , prerender: false) %>
     </div>

@@ -1,0 +1,14 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Track info</h3>
+  </div>
+  <div class="panel-body">
+    <% if @meeting.track.is_elaborate %>
+        <p><strong>Length : </strong><%=@meeting.track.length %></p>
+        <p><strong>Ascent : </strong><%=@meeting.track.ascention %></p>
+        <p><strong>Descent : </strong><%=@meeting.track.descent %></p>
+    <% else %>
+        <p>Track info will be available soon!</p>
+    <%end %>
+  </div>
+</div>

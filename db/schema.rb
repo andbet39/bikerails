@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161007124439) do
+ActiveRecord::Schema.define(version: 20161008084150) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "meetings", force: :cascade do |t|
     t.string   "title"
@@ -48,7 +51,7 @@ ActiveRecord::Schema.define(version: 20161007124439) do
     t.float    "rate"
   end
 
-  add_index "points", ["track_id"], name: "index_points_on_track_id"
+  add_index "points", ["track_id"], name: "index_points_on_track_id", using: :btree
 
   create_table "ride_levels", force: :cascade do |t|
     t.string   "name"
@@ -75,6 +78,9 @@ ActiveRecord::Schema.define(version: 20161007124439) do
     t.datetime "gpx_updated_at"
     t.boolean  "is_elaborate"
     t.string   "polyline"
+    t.float    "ascention"
+    t.float    "length"
+    t.float    "descent"
   end
 
   create_table "users", force: :cascade do |t|
@@ -92,7 +98,14 @@ ActiveRecord::Schema.define(version: 20161007124439) do
     t.datetime "updated_at",                          null: false
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "meetings", "ride_levels"
+  add_foreign_key "meetings", "ride_types"
+  add_foreign_key "meetings", "tracks"
+  add_foreign_key "meetings", "users"
+  add_foreign_key "participations", "meetings"
+  add_foreign_key "participations", "users"
+  add_foreign_key "points", "tracks"
 end
