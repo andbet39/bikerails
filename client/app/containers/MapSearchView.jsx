@@ -4,6 +4,7 @@ import { Map, Marker, Popup, TileLayer,Polyline,FeatureGroup } from 'react-leafl
 import SearchBar from '../components/SearchBar';
 import SearchResult from '../components/SearchResult';
 import ReactTimeout from 'react-timeout'
+import InfiniteLoader from 'react-infinite-loader'
 
 export default class MapSearchView extends React.Component {
   static propTypes = {
@@ -18,14 +19,17 @@ export default class MapSearchView extends React.Component {
         bounds:[[12,41],[14,43]],
         center:this.props.center,
         addressloc:null,searchStr:'',
-        dragSearch:false
+        dragSearch:false,
+        res_page:1,
+        searchStr:'',
+        res_end:false
     };
       console.log(this.props.center)
   }
   
   componentDidMount(){
        console.log("componentDidMount");
-      this.handleSearch();
+      this.handleSearch('');
  }
 
     handleMapMove(e){
@@ -68,14 +72,20 @@ export default class MapSearchView extends React.Component {
     }
 
     handleSearch(searchstr){
+
         this.setState({
-            searchStr:searchstr
+            searchStr:searchstr,
+            res_page:1,
+            res_end:false
         });
-        axios.get('/api/meeting/search?i=0'+searchstr)
+        axios.get('/api/meeting/search?page=1'+ this.state.searchStr)
 
             .then((resp)=>{
+                let res_p=this.state.res_page+1;
+
                 this.setState({
-                    meetings:resp.data
+                    meetings:resp.data,
+                    res_page:res_p
                 });
                 console.log(resp.data);
                 setTimeout(()=>{
@@ -93,6 +103,42 @@ export default class MapSearchView extends React.Component {
             });
     }
 
+    handleLoadMore(){
+        if(!this.state.res_end){
+        console.log("loading " + this.state.res_page);
+        axios.get('/api/meeting/search?page='+this.state.res_page+ this.state.searchStr)
+            .then((resp)=>{
+                let meets = this.state.meetings.concat(resp.data);;
+                let res_p=this.state.res_page+1;
+                if (resp.data.length == 0){
+                    this.setState({
+                        res_end:true
+                    })
+                }
+                console.log(meets);
+                this.setState({
+                    meetings:meets,
+                    res_page:res_p
+                });
+
+                setTimeout(()=>{
+                    if(this.state.meetings.length>0){
+                        this.setState({
+                            bounds: this.featuremarker.leafletElement.getBounds()
+                        });
+                    }
+
+                }, 100);
+
+            })
+            .catch((err)=>{
+                console.log(err);
+            });
+        }else{
+            console.log("No more result");
+        }
+    }
+
   render() {
 
       let center = this.state.center;
@@ -101,7 +147,7 @@ export default class MapSearchView extends React.Component {
       }
       let zoom=10;
       let marker= this.state.meetings.map((meet)=>{
-          return <Marker position={[meet.start_lat,meet.start_lng]} >
+          return <Marker key={meet.id} position={[meet.start_lat,meet.start_lng]} >
               <Popup>
                   <span>
                       <a href={'/my_meeting/view?meet_id='+ meet.id } >
@@ -158,11 +204,18 @@ export default class MapSearchView extends React.Component {
                     <SearchBar onAddressSelect={(e)=>this.handleAddressSelect(e)} onSearch={(e)=>this.handleSearch(e)}></SearchBar>
                 </div>
             </div>
+            <div>
             <div className="row">
                 {alertnew}
                 {meetings}
             </div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
 
+            <InfiniteLoader onVisited={ () => this.handleLoadMore() } />
+            </div>
         </div>
 
 

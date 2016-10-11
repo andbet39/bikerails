@@ -32,6 +32,8 @@ export default class SearchResult extends React.Component {
               <a href={'/my_meeting/view?meet_id='+ meet.id } ><h4>{meet.title}<small> by {meet.user.email}</small></h4></a>
               <p>Starting: {meet.start_time } People :{meet.participations.length}</p>
               <p>{meet.track.length} - Asc: {meet.track.ascention} - Des. {meet.track.descent}</p>
+              <br/> <br/> <br/>
+              <br/> <br/> <br/> 
           </div>
 
       )

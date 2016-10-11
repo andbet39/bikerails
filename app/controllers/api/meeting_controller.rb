@@ -9,7 +9,7 @@ class Api::MeetingController < ApplicationController
     startdate=params[:startdate]
 
     radius=params[:radius]
-    @meetings = Meeting.all.limit(100)
+    @meetings = Meeting.paginate(:page => params[:page], :per_page => 8 )
 
     if params[:bounds_sw]
       bounds_sw=params[:bounds_sw].split(',')
@@ -35,6 +35,13 @@ class Api::MeetingController < ApplicationController
     if origin_lat
       logger.info("ORIGIN")
       @meetings = @meetings.within(50,:origin => [origin_lat,origin_lng])
+    end
+
+    if params[:page]
+      logger.info("PAGE" + params[:page])
+
+      @meetings.paginate(:page => params[:page], :per_page => 8 )
+
     end
 
     render json: @meetings
