@@ -27,5 +27,11 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: postgresql
+  encoding: unicode
+  database: bikerails
+  pool: 5
+  username: bikerails
+  password: 26111979
+  port: 5432
+  host: localhost
