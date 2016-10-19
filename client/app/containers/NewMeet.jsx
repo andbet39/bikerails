@@ -280,7 +280,7 @@ export default class NewMeet extends React.Component {
             <div className="col-md-12">
                 <Map ref={(ref) => this.map = ref} center={position} zoom={mapzoom} bounds={bounds} onclick={(e)=>this.handleMapClick(e)}>
                     <TileLayer
-                    url='https://api.mapbox.com/styles/v1/andbet39/cit8fipzr00422xoaofa3l9jd/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW5kYmV0MzkiLCJhIjoiWjdrTG56QSJ9.MgWMjnaY4NPHqq8iauqEVw'
+                    url='https://api.mapbox.com/styles/v1/andbet39/ciucihy7500742iodhxtxvoew/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW5kYmV0MzkiLCJhIjoiWjdrTG56QSJ9.MgWMjnaY4NPHqq8iauqEVw'
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     />
                     {marker}

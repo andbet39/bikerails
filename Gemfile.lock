@@ -48,6 +48,8 @@ GEM
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
+    bootswatch-rails (3.3.5)
+      railties (>= 3.1)
     builder (3.2.2)
     byebug (9.0.5)
     chartjs-ror (3.0.2)
@@ -248,6 +250,7 @@ DEPENDENCIES
   acts_as_votable (~> 0.10.0)
   bcrypt (~> 3.1.7)
   bootstrap-sass (~> 3.3.6)
+  bootswatch-rails
   byebug
   chartjs-ror
   coffee-rails (~> 4.1.0)

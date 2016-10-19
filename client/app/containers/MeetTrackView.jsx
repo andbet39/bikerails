@@ -95,7 +95,7 @@ export default class TrackView extends React.Component {
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
   
-          <Polyline ref={(ref) => this.refpline = ref } color='lime' positions={polyline} />
+          <Polyline ref={(ref) => this.refpline = ref } color='red' positions={polyline} />
            {seg}
            {segpline}
         

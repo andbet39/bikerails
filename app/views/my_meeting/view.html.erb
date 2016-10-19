@@ -10,8 +10,9 @@
       <%= render partial: 'partials/usersmall', locals: {user: @meeting.user} %>
     </div>
     <div class="col-md-3">
+      <% if current_user != nil %>
       <%= react_component("LikeButtonApp", props: { current_user:current_user, voted:current_user.voted_for?(@meeting) , meet_id:@meeting.id, votes:@meeting.get_likes.size } , prerender: false) %>
-
+      <% end %>
     </div>
   </div>
 
@@ -34,7 +35,9 @@
       <%= @meeting.description.html_safe  %>
     </div>
     <div class="col-md-4">
+      <% if current_user !=nil %>
       <%= react_component("MeetingSignupApp", props: @signup_props , prerender: false) %>
+          <% end %>
     </div>
 
 

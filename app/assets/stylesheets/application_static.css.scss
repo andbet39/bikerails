@@ -2,7 +2,9 @@
 
 // Non-webpack assets
 @import "bootstrap-sprockets";
+@import "bootswatch/simplex/variables";
 @import "bootstrap";
+@import "bootswatch/simplex/bootswatch";
 @import "datepicker";
 @import 'application_non_webpack';
 @import 'react-select';
